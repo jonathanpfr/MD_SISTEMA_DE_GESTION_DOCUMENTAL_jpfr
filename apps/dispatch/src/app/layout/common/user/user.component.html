@@ -1,0 +1,71 @@
+<button mat-button
+        [matMenuTriggerFor]="userActions">
+  <span class="flex items-center text-start">
+    <mat-icon [svgIcon]="'heroicons_outline:user-circle'"
+              inline="true"
+              class="w-[35px]"></mat-icon>
+    <div class="text-[13px] ms-1 hidden md:block">
+      <div class="font-bold">{{user.id}} - {{user.name}}</div>
+      <div class="text-gray-700 small">{{user.area}}</div>
+    </div>
+    <mat-icon [svgIcon]="'heroicons_outline:chevron-down'"
+              inline="true"
+              class="w-[18px] min-w-[auto] ms-2"></mat-icon>
+  </span>
+</button>
+
+<mat-menu [xPosition]="'before'"
+          #userActions="matMenu">
+  <button mat-menu-item>
+    <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+    <span>Perfil</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+    <span>Ajustes</span>
+  </button>
+  <mat-divider class="my-2"></mat-divider>
+  <button mat-menu-item
+          (click)="signOut()">
+    <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu>
+
+<!-- Button -->
+<!-- <button mat-icon-button
+        [matMenuTriggerFor]="userActions">
+  <span class="relative">
+    @if (showAvatar && user.avatar) {
+    <img class="w-7 h-7 rounded-full"
+         [src]="user.avatar">
+    } @else {
+    <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+    }    
+  </span>
+</button>
+
+<mat-menu [xPosition]="'before'"
+          #userActions="matMenu">
+  <button mat-menu-item>
+    <span class="flex flex-col leading-none">
+      <span>Registrado como</span>
+      <span class="mt-1.5 text-md font-medium">{{user.email}}</span>
+    </span>
+  </button>
+  <mat-divider class="my-2"></mat-divider>
+  <button mat-menu-item>
+    <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+    <span>Perfil</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+    <span>Ajustes</span>
+  </button>
+  <mat-divider class="my-2"></mat-divider>
+  <button mat-menu-item
+          (click)="signOut()">
+    <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu> -->

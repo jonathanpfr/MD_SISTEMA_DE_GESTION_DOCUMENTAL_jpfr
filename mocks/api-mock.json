@@ -1,0 +1,326 @@
+{
+  "uuid": "9bd2771c-b02a-4fe8-a3aa-8f9425b9dac1",
+  "lastMigration": 32,
+  "name": "Contraloria",
+  "endpointPrefix": "",
+  "latency": 500,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "327e8059-dae5-4094-86c3-7c0876442b71",
+      "type": "http",
+      "documentation": "Datos generales",
+      "method": "get",
+      "endpoint": "api/suppliers/search",
+      "responses": [
+        {
+          "uuid": "e20306b2-a91f-4d94-87d8-f252fc0c2f8b",
+          "body": "{{setVar 'total' 28}}\n{{setVar 'page' (queryParamRaw 'page')}}\n{{setVar 'pageSize' (queryParamRaw 'pageSize')}}\n\n{{setVar 'totalPages' (ceil (divide @total @pageSize))}}\n{{setVar 'pageElements' @pageSize}}\n\n{{#if (gte @page @totalPages)}}\n{{setVar 'pageElements' (subtract @total (multiply @pageSize (subtract @page 1)))}}\n{{/if}}\n\n{\n  \"data\": [\n    {{#repeat @pageElements}}\n    {\n      \"idProveedor\": {{add @index 1}},\n      \"razonSocial\": \"{{company}} {{queryParamRaw 'name'}}\",\n      \"nroDocumento\": \"20{{int 100000000 999999999}}\",\n      \"estado\": \"ACTIVO\"\n    }\n    {{/repeat}}\n  ],\n  \"pagination\": {\n    \"page\": {{@page}},\n    \"total\": {{@total}},\n    \"pageSize\": {{@pageSize}},\n    \"totalPages\": {{@totalPages}},\n    \"pageElements\": {{@pageElements}}\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "6708ea94-64de-49b0-8d06-987899f4ad81",
+          "body": "{{setVar 'total' 3}}\n{{setVar 'page' (queryParamRaw 'page')}}\n{{setVar 'pageSize' (queryParamRaw 'pageSize')}}\n\n{{setVar 'totalPages' (ceil (divide @total @pageSize))}}\n{{setVar 'pageElements' @pageSize}}\n\n{{#if (gte @page @totalPages)}}\n{{setVar 'pageElements' (subtract @total (multiply @pageSize (subtract @page 1)))}}\n{{/if}}\n\n{\n  \"data\": [\n    {{#repeat @pageElements}}\n    {\n      \"idProveedor\": {{add @index 1}},\n      \"razonSocial\": \"{{company}}\",\n      \"nroDocumento\": \"20{{int 100000000 999999999}}\",\n      \"estado\": \"ACTIVO\"\n    }\n    {{/repeat}}\n  ],\n  \"pagination\": {\n    \"page\": {{@page}},\n    \"total\": {{@total}},\n    \"pageSize\": {{@pageSize}},\n    \"totalPages\": {{@totalPages}},\n    \"pageElements\": {{@pageElements}}\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Filtro por año",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "year",
+              "value": "2024",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a8976ab4-1d04-47e2-a587-9c247f4e2f28",
+          "body": "{\n  \"data\": [\n    {\n      \"idProveedor\": 1,\n      \"razonSocial\": \"Ana Suarez Gutierrez\",\n      \"nroDocumento\": \"{{queryParamRaw 'documentValue'}}\",\n      \"estado\": \"ACTIVO\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"total\": 1,\n    \"pageSize\": 10\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Filtro por DNI",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "documentValue",
+              "value": "^\\d{8}$",
+              "invert": false,
+              "operator": "regex_i"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "51026ddd-1bc8-4daa-bf2f-7be15491381b",
+          "body": "{\n  \"data\": [\n    {\n      \"idProveedor\": 2,\n      \"razonSocial\": \"Empresa de prueba SA\",\n      \"nroDocumento\": \"{{queryParamRaw 'documentValue'}}\",\n      \"estado\": \"ACTIVO\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"total\": 1,\n    \"pageSize\": 10\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Filtro por RUC",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "query",
+              "modifier": "documentValue",
+              "value": "^(10|20)\\d{9}$",
+              "invert": false,
+              "operator": "regex_i"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "adcaf930-6075-421b-b1cb-0e8d033111a0",
+      "type": "http",
+      "documentation": "Extrae un proveedor",
+      "method": "get",
+      "endpoint": "api/suppliers/:id",
+      "responses": [
+        {
+          "uuid": "e9a198b5-7596-4c20-a8ff-9019b7babc85",
+          "body": "{\n  \"idProveedor\": 1,\n  \"tipoDocumento\": \"01\",\n  \"nroDocumento\": \"45123456\",\n  \"apePaterno\": \"Suarez\",\n  \"apeMaterno\": \"Gutierrez\",\n  \"nombres\": \"Ana\",\n  \"razonSocial\": \"\",\n  \"correo\": \"prueba@gmail.com\",\n  \"celular\": \"999566552\",\n  \"telefono\": \"01-201256\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "9e64fa33-fc3c-43b2-8807-9fbe0606e608",
+          "body": "{\n  \"idProveedor\": 1,\n  \"tipoDocumento\": \"01\",\n  \"nroDocumento\": \"45123456\",\n  \"apePaterno\": \"Suarez\",\n  \"apeMaterno\": \"Gutierrez\",\n  \"nombres\": \"Ana\",\n  \"razonSocial\": \"\",\n  \"correo\": \"prueba@gmail.com\",\n  \"celular\": \"999566552\",\n  \"telefono\": \"01-201251\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Persona - DNI",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "dd09ebc5-debb-49e8-b66a-c90893efa741",
+          "body": "{\n  \"idProveedor\": 2,\n  \"tipoDocumento\": \"02\",\n  \"nroDocumento\": \"20120002121\",\n  \"apePaterno\": \"\",\n  \"apeMaterno\": \"\",\n  \"nombres\": \"\",\n  \"razonSocial\": \"Corporacion 2 Palitos SA\",\n  \"correo\": \"prueba@gmail.com\",\n  \"celular\": \"999566552\",\n  \"telefono\": \"01-201253\",\n  \"direccionSunat\": \"Av. Las Flores 459 San Martin de Porres\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Empresa - RUC",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "2",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "23d147e4-0cb3-461a-8eb9-6d1832b7253d",
+      "type": "http",
+      "documentation": "Datos financieros",
+      "method": "get",
+      "endpoint": "api/suppliers/financial",
+      "responses": [
+        {
+          "uuid": "08831d3a-642d-45bc-9dc1-be756d97dc5b",
+          "body": "{{setVar 'total' 11}}\n{{setVar 'page' (queryParamRaw 'page')}}\n{{setVar 'pageSize' (queryParamRaw 'pageSize')}}\n\n{{setVar 'totalPages' (ceil (divide @total @pageSize))}}\n{{setVar 'pageElements' @pageSize}}\n\n{{#if (gte @page @totalPages)}}\n{{setVar 'pageElements' (subtract @total (multiply @pageSize (subtract @page 1)))}}\n{{/if}}\n\n{\n  \"data\": [\n    {{#repeat @pageElements}}\n    {\n      \"idProveedor\": {{add @index 1}},\n      \"periodo\": {{int 2020 2030}},\n      \"tipoContrato\": \"{{oneOf (array 'Contrato' 'Adenda')}}\",\n      \"razonSocial\": \"{{company}} {{queryParamRaw 'name'}}\",\n      \"ejecucion\": {{int 100000 500000}},\n      \"porcentajeEjecucion\": {{float 0 1}}\n    }\n    {{/repeat}}\n  ],\n  \"pagination\": {\n    \"page\": {{@page}},\n    \"total\": {{@total}},\n    \"pageSize\": {{@pageSize}}\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "f1f5f534-4f1c-4d51-aed3-b05420f29bc9",
+      "type": "http",
+      "documentation": "Datos producto",
+      "method": "get",
+      "endpoint": "api/suppliers/products",
+      "responses": [
+        {
+          "uuid": "8dd9da55-6440-4b81-b06f-cf911579af67",
+          "body": "{{setVar 'total' 8}}\n{{setVar 'page' (queryParamRaw 'page')}}\n{{setVar 'pageSize' (queryParamRaw 'pageSize')}}\n\n{{setVar 'totalPages' (ceil (divide @total @pageSize))}}\n{{setVar 'pageElements' @pageSize}}\n\n{{#if (gte @page @totalPages)}}\n{{setVar 'pageElements' (subtract @total (multiply @pageSize (subtract @page 1)))}}\n{{/if}}\n\n{\n  \"data\": [\n    {{#repeat @pageElements}}\n    {\n      \"idProveedor\": {{add @index 1}},\n      \"periodo\": \"2024-05-06T20:00:00\",\n      \"tipoContrato\": \"{{oneOf (array 'Contrato' 'Adenda')}}\",\n      \"razonSocial\": \"{{company}} {{queryParamRaw 'name'}}\",\n      \"ejecucion\": {{int 100000 500000}},\n      \"porcentajeEjecucion\": {{float 0 1}}\n    }\n    {{/repeat}}\n  ],\n  \"pagination\": {\n    \"page\": {{@page}},\n    \"total\": {{@total}},\n    \"pageSize\": {{@pageSize}}\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "327e8059-dae5-4094-86c3-7c0876442b71"
+    },
+    {
+      "type": "route",
+      "uuid": "23d147e4-0cb3-461a-8eb9-6d1832b7253d"
+    },
+    {
+      "type": "route",
+      "uuid": "f1f5f534-4f1c-4d51-aed3-b05420f29bc9"
+    },
+    {
+      "type": "route",
+      "uuid": "adcaf930-6075-421b-b1cb-0e8d033111a0"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

@@ -1,0 +1,78 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+.loading > * {
+  opacity: 0.3;
+}
+.loading::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
+  height: 40px;
+  width: 40px;
+  border: 4px solid var(--fuse-primary-500);
+  border-color: var(--fuse-primary-500) transparent var(--fuse-primary-500) transparent;
+  border-radius: 50%;
+  animation: spinner linear 1s infinite;
+  z-index: 10;
+  opacity: 1;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.mat-mdc-simple-snack-bar .mat-mdc-snack-bar-action {
+  --mat-snack-bar-button-color: var(--fuse-primary-500);
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
+@media (min-width: 600px) {
+  md-backdrop.md-sidenav-backdrop {
+    display: none;
+  }
+}
+
+#webpack-dev-server-client-overlay {
+  display: none !important;
+}

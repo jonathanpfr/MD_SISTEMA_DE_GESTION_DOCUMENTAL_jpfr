@@ -1,0 +1,53 @@
+<div class="input_wrapper"
+     clickOut
+     (outside)="show.set(false)">
+
+  <div class="w-full">
+    <div class="mb-1">{{label()}}</div>
+    <div class="border rounded-md px-4 py-3 mb-3 cursor-default select-none h-[48px] w-full"
+         [ngClass]="options()?.css"
+         tabindex="-1"
+         [class.pe-none]="disabled()"
+         [class.is-invalid]="control.touched && control.errors"
+         (click)="showOptions()">
+      {{ value()?.label || "&nbsp;" }}
+    </div>
+  </div>
+
+  <div class="content-lazy"
+       [class.hidden]="!show()">
+    <div class="area-config">
+      <ng-content></ng-content>
+      <div class="px-3 py-2">
+        <input #inputSearch
+               type="text"
+               matInput
+               placeholder="Buscar..."
+               [formControl]="searchControl" />
+      </div>
+    </div>
+
+    <div #perfectScroll
+         fuseScrollbar
+         class="results"
+         [class.loading]="isLoading()">
+      @for (option of filtered(); track $index) {
+      <div class="option"
+           (click)="optionSelected(option)"
+           tabindex="-1"
+           [class.selected]="option[bindValue()] == value()?.value">
+        <span [innerHtml]="option._label || option[bindLabel()]"></span>
+      </div>
+      } @empty {
+      <div class="px-4 py-12 text-center text-neutral-500 text-base/4">
+        @if (!isLoading()) {
+        <mat-icon class="icon-size-5 text-current"
+                  [svgIcon]="'heroicons_outline:search'"></mat-icon>
+        <br />
+        Escribe un texto para buscar
+        }
+      </div>
+      }
+    </div>
+  </div>
+</div>

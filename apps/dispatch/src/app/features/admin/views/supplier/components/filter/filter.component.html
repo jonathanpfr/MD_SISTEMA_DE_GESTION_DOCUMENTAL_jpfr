@@ -1,0 +1,59 @@
+<div class="bg-card p-6 sm:p-10 shadow rounded-lg">
+  <div class="text-3xl font-extrabold tracking-tight mb-4">Búsqueda</div>
+  <form class="grid md:grid-cols-[1fr_200px] gap-4"
+        [formGroup]="form">
+    <div class="grid md:grid-cols-3 gap-4">
+      <mat-form-field>
+        <mat-label>Tipo de documento</mat-label>
+        <mat-select formControlName="documentType">
+          <mat-option value="">Seleccione</mat-option>
+          @for (item of documents; track item) {
+          <mat-option [value]="item.value">{{item.description}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Número de documento</mat-label>
+        <input matInput
+               formControlName="documentValue">
+        @if(form.get('documentValue').errors){
+        <mat-error>Este campo es obligatorio</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">Seleccione</mat-option>
+          @for (item of states; track item) {
+          <mat-option [value]="item.value">{{item.description}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="md:col-span-2">
+        <mat-label>Nombre o razón social</mat-label>
+        <input matInput
+               formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Año</mat-label>
+        <mat-select formControlName="year">
+          <mat-option value="">Seleccione</mat-option>
+          @for (item of years; track item) {
+          <mat-option [value]="item">{{item}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col justify-between gap-4 md:py-5">
+      <button type="button"
+              mat-flat-button
+              color="primary"
+              (click)="search()">Buscar</button>
+      <button type="button"
+              mat-flat-button
+              (click)="clear()">Limpiar</button>
+    </div>
+
+  </form>
+</div>

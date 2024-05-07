@@ -1,0 +1,375 @@
+<div class="flex flex-col flex-auto w-full sm:max-w-6xl mx-auto p-6 sm:p-8">
+  <div class="text-4xl font-extrabold tracking-tight leading-none">
+    @if (isEdit()) {
+      Editar
+    } @else {
+      Nuevo
+    }
+    Proveedor
+  </div>
+
+  @if (!isEdit()) {
+    <div class="mt-4">
+      <app-register-filter
+        (onFilter)="search($event)"
+        (onAutocomplete)="onAutocomplete($event)"
+        (onClear)="onClear($event)" />
+    </div>
+  }
+
+  @if (multipleResults()) {
+    <div class="text-lg text-center my-8 text-red-700">Se encontró mas de un resultado para la búsqueda</div>
+  }
+  @if (isLoading()) {
+    <div
+      class="py-8 mt-6"
+      [class.loading]="isLoading()"></div>
+  } @else if (form.get("idProveedor").value && !multipleResults()) {
+    <div
+      class="bg-card shadow overflow-hidden rounded-lg mt-6"
+      [formGroup]="form">
+      <mat-tab-group>
+        <mat-tab label="Datos Generales">
+          <div class="grid md:grid-cols-4 gap-4">
+            @if (form.get("tipoDocumento").value == "01") {
+              <mat-form-field>
+                <mat-label>Número de DNI</mat-label>
+                <input
+                  matInput
+                  formControlName="nroDocumento" />
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Apellido Paterno</mat-label>
+                <input
+                  matInput
+                  formControlName="apePaterno" />
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Apellido Materno</mat-label>
+                <input
+                  matInput
+                  formControlName="apeMaterno" />
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Nombres</mat-label>
+                <input
+                  matInput
+                  formControlName="nombres" />
+              </mat-form-field>
+            } @else {
+              <mat-form-field>
+                <mat-label>Número de RUC</mat-label>
+                <input
+                  matInput
+                  formControlName="nroDocumento" />
+              </mat-form-field>
+
+              <mat-form-field class="col-span-3">
+                <mat-label>Razón social</mat-label>
+                <input
+                  matInput
+                  formControlName="razonSocial" />
+              </mat-form-field>
+            }
+
+            <mat-form-field>
+              <mat-label>Número de teléfono fijo</mat-label>
+              <input
+                matInput
+                formControlName="telefono" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Número de celular</mat-label>
+              <input
+                matInput
+                formControlName="celular" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Correo electrónico</mat-label>
+              <input
+                matInput
+                formControlName="correo" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="estado">
+                <mat-option value="">Seleccione</mat-option>
+                <mat-option value="1">Activo</mat-option>
+                <mat-option value="2">Inactivo</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <custom-autocomplete
+              label="País"
+              bindLabel="pais"
+              bindValue="idPais"
+              [items]="countries"
+              formControlName="paisControl"
+              (selected)="selectedCountry($event)"></custom-autocomplete>
+
+            <custom-autocomplete
+              label="Departamento"
+              bindLabel="departamento"
+              bindValue="idDepartamento"
+              [items]="[]"
+              formControlName="departamentoControl"></custom-autocomplete>
+
+            <custom-autocomplete
+              label="Provincia"
+              bindLabel="provincia"
+              bindValue="idProvincia"
+              [items]="[]"
+              formControlName="provinciaControl"></custom-autocomplete>
+
+            <custom-autocomplete
+              label="Distrito"
+              bindLabel="distrito"
+              bindValue="idDistrito"
+              [items]="[]"
+              formControlName="distritoControl"></custom-autocomplete>
+
+            <mat-form-field class="md:col-span-4">
+              <mat-label>Dirección SUNAT</mat-label>
+              <input
+                matInput
+                formControlName="direccionSunat" />
+            </mat-form-field>
+
+            <mat-form-field class="md:col-span-4">
+              <mat-label>Dirección Opcional</mat-label>
+              <input
+                matInput
+                formControlName="direccionOpcional" />
+            </mat-form-field>
+          </div>
+        </mat-tab>
+        <mat-tab label="Datos Financieros">
+          <div class="grid md:grid-cols-4 gap-4">
+            <mat-form-field>
+              <mat-label>Tipo de contrato</mat-label>
+              <mat-select>
+                <mat-option value="">Seleccione</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Documento del contrato</mat-label>
+              <mat-select>
+                <mat-option value="">Seleccione</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Fecha inicio contrato</mat-label>
+              <input
+                matInput
+                [matDatepicker]="pickerInicioContrato" />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="pickerInicioContrato"></mat-datepicker-toggle>
+              <mat-datepicker #pickerInicioContrato></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Fecha fin contrato</mat-label>
+              <input
+                matInput
+                [matDatepicker]="pickerFinContrato" />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="pickerFinContrato"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFinContrato></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Tiempo de contrato</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Tiempo resta contrato</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Estado</mat-label>
+              <mat-select>
+                <mat-option value="">Seleccione</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Tipo de servicio</mat-label>
+              <mat-select>
+                <mat-option value="">Seleccione</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Monto del contrato</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Saldo del contrato</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Porcentaje de ejecución</mat-label>
+              <input matInput />
+            </mat-form-field>
+          </div>
+        </mat-tab>
+        <mat-tab label="Datos Producto">
+          <div class="grid md:grid-cols-4 gap-4">
+            <mat-form-field>
+              <mat-label>ID</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Tipo de servicio</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Tipo acceso</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <div>
+              <!-- Empty column -->
+            </div>
+
+            <mat-form-field>
+              <mat-label>Tipo de entrega</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Estado de entrega</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Plazo de entrega</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Plazo de retorno</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <custom-autocomplete
+              label="País"
+              bindLabel="pais"
+              bindValue="idPais"
+              [items]="countries"
+              formControlName="paisControl"></custom-autocomplete>
+
+            <custom-autocomplete
+              label="Departamento"
+              bindLabel="departamento"
+              bindValue="idDepartamento"
+              [items]="[]"
+              formControlName="departamentoControl"></custom-autocomplete>
+
+            <custom-autocomplete
+              label="Provincia"
+              bindLabel="provincia"
+              bindValue="idProvincia"
+              [items]="[]"
+              formControlName="provinciaControl"></custom-autocomplete>
+
+            <custom-autocomplete
+              label="Distrito"
+              bindLabel="distrito"
+              bindValue="idDistrito"
+              [items]="[]"
+              formControlName="distritoControl"></custom-autocomplete>
+
+            <mat-form-field>
+              <mat-label>Descargar plantilla</mat-label>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Subir plantilla</mat-label>
+              <input matInput />
+            </mat-form-field>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <div class="bg-card shadow overflow-hidden rounded-lg p-8 mt-6">
+      <div class="flex flex-col md:flex-row items-start gap-20">
+        <div class="grid md:grid-cols-[auto,_1fr,_auto] gap-2 md:gap-4 flex-1 w-full">
+          <div class="flex gap-2 items-end pb-6">
+            <button
+              mat-stroked-button
+              class="px-4">
+              Vista Previa
+            </button>
+            <button
+              mat-stroked-button
+              class="px-4 flex gap-2">
+              <mat-icon
+                class="icon-size-5 text-current"
+                [svgIcon]="'heroicons_outline:printer'"></mat-icon>
+              Imprimir
+            </button>
+          </div>
+          <mat-form-field>
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <button
+            mat-flat-button
+            class="px-4 gap-3 md:mt-7"
+            color="warn">
+            <mat-icon
+              class="icon-size-5 text-current"
+              [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+            Enviar
+          </button>
+        </div>
+        <div class="flex flex-col gap-4 justify-end w-full md:w-auto">
+          <button
+            mat-flat-button
+            color="primary"
+            class="px-6 flex gap-3">
+            <mat-icon
+              class="icon-size-5 text-current"
+              [svgIcon]="'heroicons_outline:save'"></mat-icon>
+            Guardar
+          </button>
+          <button
+            mat-stroked-button
+            class="px-6 gap-3">
+            <mat-icon
+              class="icon-size-5 text-current"
+              [svgIcon]="'heroicons_outline:check'"></mat-icon>
+            Limpiar
+          </button>
+          <button
+            mat-stroked-button
+            class="px-6 gap-3">
+            <mat-icon
+              class="icon-size-5 text-current"
+              [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

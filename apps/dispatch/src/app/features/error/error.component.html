@@ -1,0 +1,9 @@
+<div class="min-w-full min-h-full flex flex-col items-center justify-center">
+  <span class="text-4xl font-bold">Error {{code}}</span>
+  @if (code == 403) {
+    <span>Acceso no permitido</span>
+  }
+  @if (code == 404) {
+    <span>Recurso no encontrado</span>
+  }
+</div>
